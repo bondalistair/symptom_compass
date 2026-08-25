@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symptom Compass — a starting point, not a diagnosis</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --bg: #12162A;
+  --ink: #F1EEE6;
+  --ink-soft: #B9C0D6;
+  --sage: #7FA893;
+  --sage-deep: #4F6C5F;
+  --card: #1B2140;
+  --card-line: #2A3158;
+  --amber: #D9A441;
+  --crisis: #E2836D;
+  --crisis-bg: #2E1B18;
+  --rule: #2A3158;
+}
+
+*{ box-sizing: border-box; }
+
+.visually-hidden{
+  position:absolute;
+  width:1px; height:1px;
+  padding:0; margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+.skip-link{
+  position:absolute;
+  left:12px; top:-48px;
+  background: var(--ink);
+  color:#fff;
+  padding:10px 16px;
+  border-radius:8px;
+  font-family:'Karla', sans-serif;
+  font-size:0.85rem;
+  font-weight:600;
+  text-decoration:none;
+  z-index:100;
+  transition: top 0.15s ease;
+}
+.skip-link:focus{ top:12px; }
+
+a:focus-visible,
+button:focus-visible,
+textarea:focus-visible,
+select:focus-visible{
+  outline: 2.5px solid #F1EEE6;
+  outline-offset: 2px;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(217,164,65,0.10), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(127,168,147,0.08), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  font-family: 'Karla', sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+.wrap{
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+}
+
+/* Mark */
+.mark{
+  width: 66px; height: 66px;
+  margin: 0 auto 22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+h1{
+  font-family:'Fraunces', serif;
+  font-weight:500;
+  font-size: 2.35rem;
+  letter-spacing: -0.01em;
+  text-align:center;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.subhead{
+  text-align:center;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  max-width: 440px;
+  margin: 0 auto 32px;
+  line-height:1.5;
+}
+
+.crisis-entry{
+  text-align:center;
+  margin: 24px 0 28px;
+}
+.crisis-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1.5px solid #E2836D;
+  background: #FFFFFF;
+  color: #E2836D;
+  font-family:'Karla', sans-serif;
+  font-weight:600;
+  font-size: 0.85rem;
+  cursor:pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.crisis-btn:hover{ background: #E2836D; color: #fff; }
+
+/* Persistent disclaimer strip */
+.strip{
+  border:1px solid var(--card-line);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height:1.5;
+  margin-top: 24px;
+  margin-bottom: 20px;
+  text-align:center;
+}
+.strip strong{ color: var(--ink); font-weight:600; }
+
+.clinician-badge{
+  display:none;
+  align-items:center;
+  gap:10px;
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height:1.4;
+  margin-bottom: 24px;
+}
+.clinician-badge svg{ flex-shrink:0; }
+.clinician-badge strong{ color: var(--ink); font-weight:600; }
+
+/* Form */
+.field-label{
+  font-size:0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+  display:block;
+}
+
+textarea{
+  width:100%;
+  min-height: 140px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--card-line);
+  background: var(--card);
+  color: var(--ink);
+  font-family:'Karla', sans-serif;
+  font-size: 0.98rem;
+  line-height:1.55;
+  resize: vertical;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+textarea::placeholder{ color: #6B7390; }
+.input-hint{
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  opacity: 0.85;
+  margin: -4px 0 8px;
+}
+textarea:focus{
+  outline:none;
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px rgba(110,143,124,0.18);
+}
+
+.row{
+  display:flex;
+  gap:14px;
+  margin-top:18px;
+}
+.select-group{ flex:1; }
+select{
+  width:100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--card-line);
+  background: var(--card);
+  color: var(--ink);
+  font-family:'Karla', sans-serif;
+  font-size: 0.92rem;
+  appearance:none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23B9C0D6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position: right 14px center;
+}
+select:focus{ outline:none; border-color: var(--sage); }
+
+button.submit{
+  width:100%;
+  margin-top: 24px;
+  padding: 15px;
+  border-radius: 10px;
+  border:none;
+  background: linear-gradient(180deg, #E9C87A, #D9A441);
+  color: #20160A;
+  font-family:'Karla', sans-serif;
+  font-weight:700;
+  font-size: 0.98rem;
+  letter-spacing:0.01em;
+  cursor:pointer;
+  box-shadow: 0 10px 30px -12px rgba(217,164,65,0.55);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+button.submit:hover:not(:disabled){ transform: translateY(-1px); box-shadow: 0 14px 34px -10px rgba(217,164,65,0.65); }
+button.submit:active:not(:disabled){ transform: scale(0.99); }
+button.submit:disabled{ opacity:0.6; cursor:default; }
+
+/* Loading */
+.loading{
+  display:none;
+  align-items:center;
+  gap:14px;
+  justify-content:center;
+  margin-top: 34px;
+  color: var(--ink-soft);
+  font-size:0.9rem;
+}
+.breathe-dot{
+  width: 40px; height:40px;
+  border-radius:50%;
+  background: var(--sage);
+  animation: breathe 1.8s ease-in-out infinite;
+  flex-shrink:0;
+}
+@keyframes breathe{
+  0%,100%{ transform: scale(0.72); opacity:0.55; }
+  50%{ transform: scale(1); opacity:1; }
+}
+
+/* Results */
+.results{ margin-top: 40px; display:none; }
+
+.crisis-banner{
+  display:none;
+  background: var(--crisis-bg);
+  border: 1px solid rgba(169,75,60,0.35);
+  border-radius: 14px;
+  padding: 20px 20px;
+  margin-bottom: 24px;
+}
+.crisis-banner h3{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  color: var(--crisis);
+  margin:0 0 8px;
+  font-size:1.15rem;
+}
+.crisis-banner p{
+  margin:0 0 6px;
+  color:#F1D9D1;
+  font-size:0.92rem;
+  line-height:1.55;
+}
+.crisis-banner ul{
+  margin: 10px 0 0;
+  padding-left: 18px;
+  font-size:0.88rem;
+  color:#F1D9D1;
+  line-height:1.7;
+}
+
+.intro-box{
+  display:flex;
+  align-items:flex-start;
+  gap: 14px;
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 24px;
+}
+.intro-icon{
+  flex-shrink:0;
+  margin-top: 2px;
+}
+.results-intro{
+  font-size:1.05rem;
+  font-weight:600;
+  color: var(--ink-soft);
+  line-height:1.6;
+  margin:0;
+}
+.results-intro::before{ content: "\201C"; }
+.results-intro::after{ content: "\201D"; }
+
+.suggest-label{
+  font-size:1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  font-weight:600;
+  margin: 0 0 12px;
+}
+
+.direction-card{
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-bottom: 14px;
+}
+.direction-top{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap: 12px;
+  margin-bottom:8px;
+}
+.direction-name{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+.confidence{
+  font-size: 0.72rem;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space:nowrap;
+  font-weight:600;
+}
+.confidence.high{ background: #3E5A4D; color: #FFFFFF; }
+.confidence.moderate{ background: rgba(180,129,63,0.16); color: var(--amber); }
+.confidence.low{ background: rgba(86,97,88,0.12); color: var(--ink-soft); }
+
+.direction-rationale{
+  font-size:0.92rem;
+  color: var(--ink-soft);
+  line-height:1.6;
+}
+
+.why-badge{
+  display:flex;
+  align-items:flex-start;
+  gap:7px;
+  margin-top:10px;
+  font-size:0.82rem;
+  line-height:1.45;
+}
+.why-badge svg{ flex-shrink:0; margin-top:2px; }
+.why-badge a{
+  color: var(--sage-deep);
+  font-weight:600;
+  text-decoration: underline;
+  text-decoration-color: var(--card-line);
+}
+.why-badge a:hover{ text-decoration-color: var(--sage-deep); }
+.why-badge.no-link{ color: var(--ink-soft); }
+
+.cta-therapist{
+  display:inline-block;
+  margin-top: 14px;
+  padding: 9px 16px;
+  border-radius: 9px;
+  border: none;
+  background: #4F6C5F;
+  color: #FFFFFF;
+  font-family:'Karla', sans-serif;
+  font-weight:600;
+  font-size: 0.82rem;
+  text-decoration:none;
+  cursor:pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.cta-therapist:hover{
+  background: #3C5449;
+  color: #FFFFFF;
+}
+
+.clinician-note{
+  border-top:1px dashed var(--rule);
+  margin-top: 24px;
+  padding-top: 20px;
+  font-size:0.88rem;
+  color: var(--ink-soft);
+  line-height:1.6;
+}
+
+.share-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top: 20px;
+}
+.share-btn{
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1.5px solid var(--sage);
+  background: transparent;
+  color: var(--sage);
+  font-family:'Karla', sans-serif;
+  font-weight:600;
+  font-size: 0.86rem;
+  cursor:pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.share-btn:hover{ background: var(--sage); color: #12162A; }
+.share-confirm{
+  font-size:0.82rem;
+  color: var(--sage);
+  font-weight:600;
+  opacity:0;
+  transition: opacity 0.2s ease;
+}
+.share-confirm.visible{ opacity:1; }
+
+.error-box{
+  display:none;
+  margin-top:24px;
+  padding:16px;
+  border-radius:10px;
+  background: var(--crisis-bg);
+  color:#F1D9D1;
+  font-size:0.88rem;
+}
+
+.footer-note{
+  text-align:center;
+  font-size:0.76rem;
+  color: var(--ink-soft);
+  margin-top: 48px;
+  line-height:1.6;
+}
+.disclaimer-label{
+  text-align:center;
+  font-size:0.72rem;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  font-weight:600;
+  color: var(--ink-soft);
+  margin: 48px 0 6px;
+}
+.footer-note + .footer-note,
+.disclaimer-label + .footer-note{ margin-top: 0; }
+
+.fallback-link{
+  display:none;
+  text-align:center;
+  margin-top: 22px;
+}
+.fallback-link a{
+  display:inline-block;
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #4F6C5F;
+  color: #FFFFFF;
+  font-family:'Karla', sans-serif;
+  font-weight:600;
+  font-size:0.85rem;
+  text-decoration:none;
+  transition: background 0.15s ease;
+}
+.fallback-link a:hover{ background: #3C5449; }
+
+.back-link{
+  background:none;
+  border:none;
+  padding:0;
+  color: var(--ink-soft);
+  font-family:'Karla', sans-serif;
+  font-size: 0.88rem;
+  font-weight:600;
+  cursor:pointer;
+}
+.back-link:hover{ color: var(--ink); }
+
+.results-actions{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom: 28px;
+  flex-wrap:wrap;
+}
+.results-actions .divider{ color: var(--card-line); font-size:0.85rem; }
+
+@media print{
+  body{ background: #fff !important; }
+  .skip-link,
+  .no-print,
+  .cta-therapist,
+  .fallback-link,
+  .form-view,
+  .share-row{
+    display:none !important;
+  }
+  #resultsHeading{
+    position:static !important;
+    width:auto !important;
+    height:auto !important;
+    padding:0 !important;
+    margin:0 0 14px !important;
+    overflow:visible !important;
+    clip:auto !important;
+    white-space:normal !important;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.3rem;
+    color: var(--ink);
+  }
+  .intro-box, .direction-card, .clinician-note, .clinician-badge{
+    border:1px solid #ccc !important;
+    background:#fff !important;
+    box-shadow:none !important;
+    break-inside: avoid;
+  }
+  .cta-therapist{ display:none !important; }
+}
+</style>
+</head>
+<body>
+<a href="#symptoms" class="skip-link">Skip to symptom description field</a>
+
+<main class="wrap" id="mainContent">
+
+  <div class="form-view" id="formView">
+  <div class="mark" aria-hidden="true">
+    <svg width="66" height="66" viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="21" fill="none" stroke="#4F6C5F" stroke-width="1.5"/>
+      <circle cx="24" cy="24" r="13.5" fill="none" stroke="#4F6C5F" stroke-width="1.5" opacity="0.6"/>
+      <circle cx="24" cy="24" r="6" fill="#4F6C5F"/>
+    </svg>
+  </div>
+  <h1 id="formHeading" tabindex="-1">Mental Health<br>Symptom Compass</h1>
+  <p class="subhead">Describe what you've been experiencing. We'll suggest which <strong>evidence-based therapy</strong> approaches are commonly used for symptoms like yours — as a starting point for a conversation with a licensed clinician, not a diagnosis.</p>
+
+  <div class="clinician-badge" id="clinicianBadgeForm"></div>
+
+  <form id="symptomForm" novalidate>
+    <label class="field-label" for="symptoms" style="font-size: 1.3rem;"><strong>What's been going on?</strong></label>
+    <p class="input-hint"><strong>A few sentences helps us suggest more relevant directions.</strong></p>
+    <textarea id="symptoms" required aria-required="true" placeholder="e.g. I've had trouble sleeping for the past month, my mind races at night, and I feel on edge most of the day..."></textarea>
+
+    <div class="row">
+      <div class="select-group">
+        <label class="field-label" for="duration"><strong>Roughly how long?</strong></label>
+        <select id="duration">
+          <option value="">Prefer not to say</option>
+          <option>A few days</option>
+          <option>A few weeks</option>
+          <option>A few months</option>
+          <option>Over a year</option>
+        </select>
+      </div>
+      <div class="select-group">
+        <label class="field-label" for="intensity"><strong>How much it's affecting daily life?</strong></label>
+        <select id="intensity">
+          <option value="">Prefer not to say</option>
+          <option>Mildly</option>
+          <option>Moderately</option>
+          <option>Significantly</option>
+          <option>Severely</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="button" class="submit" id="submitBtn">Find the right therapy for me</button>
+
+    <div class="strip"><strong>This is not a diagnostic tool.</strong> It doesn't replace an assessment by a qualified mental health professional. If you're in crisis, use the Crisis Support button below or contact local emergency services now.</div>
+  </form>
+
+  <div class="loading" id="loading" role="status" aria-live="polite">
+    <div class="breathe-dot" aria-hidden="true"></div>
+    <span id="loadingText">Reading what you've shared…</span>
+  </div>
+
+  <div class="error-box" id="errorBox" role="alert" aria-live="assertive"></div>
+
+  <p class="disclaimer-label">Disclaimer</p>
+  <p class="footer-note">Symptom Compass suggests general directions only. It cannot see your full history, isn't a substitute for clinical judgment, and shouldn't be the basis of a treatment decision on its own.</p>
+
+  <div class="crisis-entry">
+    <button type="button" class="crisis-btn" id="crisisBtnBottom"><span aria-hidden="true">☎</span> Crisis support — get help now</button>
+  </div>
+  </div>
+
+  <div class="results" id="results">
+    <div class="results-actions no-print">
+      <button class="back-link" id="editBtn"><span aria-hidden="true">✎</span> Edit and resubmit</button>
+      <span class="divider" aria-hidden="true">·</span>
+      <button class="back-link" id="backBtn"><span aria-hidden="true">←</span> Start over</button>
+      <span class="divider" aria-hidden="true">·</span>
+      <button class="back-link" id="printBtn"><span aria-hidden="true">🖨</span> Print results</button>
+    </div>
+
+    <h2 id="resultsHeading" class="visually-hidden" tabindex="-1">Your suggested therapy directions</h2>
+
+    <div class="clinician-badge" id="clinicianBadgeResults"></div>
+
+    <div class="crisis-banner" id="crisisBanner" role="alert" aria-live="assertive">
+      <h3>Please reach out right now</h3>
+      <p>What you've described suggests you might be going through something urgent. You deserve immediate support from a real person — please don't wait.</p>
+      <ul>
+        <li><strong>UK:</strong> Samaritans — call 116 123, free, 24/7</li>
+        <li><strong>US:</strong> 988 Suicide & Crisis Lifeline — call or text 988</li>
+        <li><strong>Elsewhere:</strong> local emergency services, or a nearby A&E / ER</li>
+      </ul>
+    </div>
+
+    <div class="intro-box">
+      <svg class="intro-icon" width="56" height="56" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+        <path d="M4 5h20a2 2 0 012 2v11a2 2 0 01-2 2H11l-6 5.5V20H4a2 2 0 01-2-2V7a2 2 0 012-2z" stroke="#7FA893" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="9.5" cy="12.5" r="1.2" fill="#7FA893"/>
+        <circle cx="14" cy="12.5" r="1.2" fill="#7FA893"/>
+        <circle cx="18.5" cy="12.5" r="1.2" fill="#7FA893"/>
+      </svg>
+      <p class="results-intro" id="resultsIntro"></p>
+    </div>
+    <p class="suggest-label">We suggest</p>
+    <div id="directionsList"></div>
+
+    <div class="clinician-note" id="clinicianNote"></div>
+
+    <div class="share-row" id="shareRow" style="display:none;">
+      <button class="share-btn" id="shareBtn">Copy shareable link</button>
+      <span class="share-confirm" id="shareConfirm" role="status" aria-live="polite">Link copied</span>
+    </div>
+
+    <p class="fallback-link" id="fallbackLink"><a href="contact.html?therapy=General%20enquiry" target="_blank" rel="noopener">This doesn't feel right — talk to someone anyway</a></p>
+
+    <p class="disclaimer-label">Disclaimer</p>
+  <p class="footer-note">Symptom Compass suggests general directions only. It cannot see your full history, isn't a substitute for clinical judgment, and shouldn't be the basis of a treatment decision on its own.</p>
+  </div>
+
+</main>
+
+<script>
+// -------------------------------------------------------------------------
+// CLINICAL REVIEW STATUS — do not edit this to claim a review that hasn't
+// happened. Leave as `null` until a licensed clinician has actually read
+// and signed off on this app's content. An unreviewed claim of clinical
+// review is misleading on a mental-health tool and undermines the exact
+// trust this badge is meant to build.
+//
+// Once real review has happened, replace `null` with:
+//   const CLINICIAN_REVIEW = {
+//     name: "Dr. Jane Doe",
+//     credential: "Licensed Clinical Psychologist",
+//     date: "2026-08-01"
+//   };
+const CLINICIAN_REVIEW = null;
+// -------------------------------------------------------------------------
+
+const symptomForm = document.getElementById('symptomForm');
+const submitBtn = document.getElementById('submitBtn');
+const loading = document.getElementById('loading');
+const loadingText = document.getElementById('loadingText');
+const formView = document.getElementById('formView');
+const formHeading = document.getElementById('formHeading');
+const results = document.getElementById('results');
+const resultsHeading = document.getElementById('resultsHeading');
+const errorBox = document.getElementById('errorBox');
+const crisisBanner = document.getElementById('crisisBanner');
+const resultsIntro = document.getElementById('resultsIntro');
+const directionsList = document.getElementById('directionsList');
+const clinicianNote = document.getElementById('clinicianNote');
+const shareRow = document.getElementById('shareRow');
+const shareBtn = document.getElementById('shareBtn');
+const shareConfirm = document.getElementById('shareConfirm');
+const fallbackLink = document.getElementById('fallbackLink');
+const backBtn = document.getElementById('backBtn');
+const editBtn = document.getElementById('editBtn');
+const crisisBtnBottom = document.getElementById('crisisBtnBottom');
+const printBtn = document.getElementById('printBtn');
+
+function setLoadingCycle(){
+  let i = 0;
+  const loadingPhrases = [
+    "Reading what you've shared…",
+    "Weighing a few different angles…",
+    "Thinking about what tends to help…"
+  ];
+  loadingText.textContent = loadingPhrases[0];
+  return setInterval(() => {
+    i = (i + 1) % loadingPhrases.length;
+    loadingText.textContent = loadingPhrases[i];
+  }, 1800);
+}
+
+function confidenceClass(level){
+  const l = (level || '').toLowerCase();
+  if(l === 'high') return 'high';
+  if(l === 'moderate') return 'moderate';
+  return 'low';
+}
+
+function shortTherapyName(name){
+  if(!name) return '';
+  const match = name.match(/\(([^)]+)\)/);
+  return match ? match[1] : name;
+}
+
+function guidelineWhy(name){
+  const lower = (name || '').toLowerCase();
+  const map = [
+    [/cbt|cognitive behav/, "Recommended by NICE (NG222, NG116) as a first-line treatment for depression and PTSD", 'cbt-info.html'],
+    [/\bact\b|acceptance and commitment/, "Included in APA Division 12's list of research-supported treatments", 'act-info.html'],
+    [/\bdbt\b|dialectical/, "Recommended by NICE (CG78) for reducing self-harm in borderline personality disorder", 'dbt-info.html'],
+    [/psychodynamic/, "Listed by NICE (NG222) as a treatment option for depression", 'psychodynamic-info.html'],
+    [/emdr|eye movement/, "Recommended by NICE (NG116) as a first-line treatment for PTSD", 'emdr-info.html'],
+    [/\bipt\b|interpersonal/, "Recommended by NICE (NG222) as a first-line treatment for depression", 'ipt-info.html'],
+    [/exposure/, "Recommended by NICE (CG31) for OCD, as exposure and response prevention", 'exposure-info.html'],
+    [/family|systemic/, "Recommended by NICE (NG69) for eating disorders, especially in younger people", 'family-info.html'],
+    [/somatic/, "An emerging approach with preliminary evidence — not yet in major national guidelines", 'somatic-info.html'],
+  ];
+  for(const [pattern, text, slug] of map){
+    if(pattern.test(lower)) return { text, slug };
+  }
+  return null;
+}
+
+function renderWhyBadge(therapyName){
+  const why = guidelineWhy(therapyName);
+  if(!why) return '';
+  const icon = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="#4F6C5F"/><path d="M4 7.2l2 2 4-4.4" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  return `<div class="why-badge">${icon}<a href="${why.slug}" target="_blank" rel="noopener">${escapeHtml(why.text)}</a></div>`;
+}
+
+async function submitSymptoms(e){
+  if(e) e.preventDefault();
+  const symptoms = document.getElementById('symptoms').value.trim();
+  if(!symptoms){
+    document.getElementById('symptoms').focus();
+    return;
+  }
+  const duration = document.getElementById('duration').value;
+  const intensity = document.getElementById('intensity').value;
+
+  submitBtn.disabled = true;
+  results.style.display = 'none';
+  errorBox.style.display = 'none';
+  crisisBanner.style.display = 'none';
+  loading.style.display = 'flex';
+  const cycle = setLoadingCycle();
+
+  try{
+    const response = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symptoms, duration, intensity })
+    });
+
+    const parsed = await response.json();
+
+    if(!response.ok){
+      throw new Error(parsed.error || 'Request failed');
+    }
+
+    renderResults(parsed, true);
+
+  } catch(err){
+    console.error(err);
+    errorBox.textContent = err.message && err.message !== 'Request failed'
+      ? err.message
+      : "Something went wrong reading your response. Please try again in a moment.";
+    errorBox.style.display = 'block';
+  } finally {
+    clearInterval(cycle);
+    loading.style.display = 'none';
+    submitBtn.disabled = false;
+  }
+}
+
+function renderResults(parsed, updateUrl){
+  directionsList.innerHTML = '';
+  shareRow.style.display = 'none';
+  shareConfirm.classList.remove('visible');
+
+  if(parsed.crisis_flag){
+    crisisBanner.style.display = 'block';
+    fallbackLink.style.display = 'none';
+    resultsIntro.textContent = parsed.intro || '';
+    clinicianNote.textContent = parsed.clinician_note || '';
+    formView.style.display = 'none';
+    results.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    resultsHeading.focus();
+    return;
+  }
+
+  resultsIntro.textContent = parsed.intro || '';
+
+  (parsed.directions || []).forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'direction-card';
+    const isHigh = confidenceClass(d.confidence) === 'high';
+    card.innerHTML = `
+      <div class="direction-top">
+        <span class="direction-name">${escapeHtml(d.therapy || '')}</span>
+        <span class="confidence ${confidenceClass(d.confidence)}">${escapeHtml(d.confidence || '')}</span>
+      </div>
+      <div class="direction-rationale">${escapeHtml(d.rationale || '')}</div>
+      ${renderWhyBadge(d.therapy)}
+      ${isHigh ? `<a class="cta-therapist" href="contact.html?therapy=${encodeURIComponent(shortTherapyName(d.therapy))}" target="_blank" rel="noopener">Get a Free Assessment with a ${escapeHtml(shortTherapyName(d.therapy))} Therapist</a>` : ''}
+    `;
+    directionsList.appendChild(card);
+  });
+
+  clinicianNote.textContent = parsed.clinician_note || 'This is a starting point for a conversation with a licensed clinician — not a diagnosis or treatment plan.';
+  fallbackLink.style.display = 'block';
+
+  if(parsed.resultId){
+    shareRow.style.display = 'flex';
+    shareBtn.dataset.resultId = parsed.resultId;
+    if(updateUrl){
+      const url = new URL(window.location.href);
+      url.searchParams.set('id', parsed.resultId);
+      window.history.replaceState({}, '', url);
+    }
+  }
+
+  formView.style.display = 'none';
+  results.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  resultsHeading.focus();
+}
+
+async function copyShareLink(){
+  const id = shareBtn.dataset.resultId;
+  if(!id) return;
+  const url = new URL(window.location.href);
+  url.searchParams.set('id', id);
+  try{
+    await navigator.clipboard.writeText(url.toString());
+    shareConfirm.classList.add('visible');
+    setTimeout(() => shareConfirm.classList.remove('visible'), 2500);
+  } catch(e){
+    console.error('Clipboard write failed', e);
+  }
+}
+
+async function loadSharedResultFromUrl(){
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  if(!id) return;
+
+  loading.style.display = 'flex';
+  const cycle = setLoadingCycle();
+  try{
+    const response = await fetch('/api/results/' + encodeURIComponent(id));
+    const data = await response.json();
+    if(!response.ok){
+      throw new Error(data.error || 'This link has expired or is no longer valid.');
+    }
+    renderResults({ ...data, resultId: id }, false);
+  } catch(err){
+    errorBox.textContent = err.message;
+    errorBox.style.display = 'block';
+  } finally {
+    clearInterval(cycle);
+    loading.style.display = 'none';
+  }
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function renderClinicianBadges(){
+  const badges = document.querySelectorAll('.clinician-badge');
+  if(!CLINICIAN_REVIEW){
+    badges.forEach(b => { b.style.display = 'none'; });
+    return;
+  }
+  const icon = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z" fill="none" stroke="#4F6C5F" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4.4" stroke="#4F6C5F" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const text = `${icon}<span>Content reviewed by <strong>${escapeHtml(CLINICIAN_REVIEW.name)}</strong>, ${escapeHtml(CLINICIAN_REVIEW.credential)} — ${escapeHtml(CLINICIAN_REVIEW.date)}</span>`;
+  badges.forEach(b => { b.innerHTML = text; b.style.display = 'flex'; });
+}
+
+function startOver(){
+  results.style.display = 'none';
+  crisisBanner.style.display = 'none';
+  formView.style.display = 'block';
+  document.getElementById('symptoms').value = '';
+  document.getElementById('duration').value = '';
+  document.getElementById('intensity').value = '';
+  const url = new URL(window.location.href);
+  url.searchParams.delete('id');
+  window.history.replaceState({}, '', url);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  formHeading.focus();
+}
+
+function editAndResubmit(){
+  results.style.display = 'none';
+  crisisBanner.style.display = 'none';
+  formView.style.display = 'block';
+  // Deliberately leaves the symptoms/duration/intensity fields as-is,
+  // so the person can tweak their wording rather than retyping everything.
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('symptoms').focus();
+}
+
+function showCrisisResources(){
+  // Shows crisis resources directly, with no API call and regardless of
+  // anything typed in the form — a fast, always-available path for anyone
+  // who needs help right now rather than waiting on an AI response.
+  directionsList.innerHTML = '';
+  fallbackLink.style.display = 'none';
+  resultsIntro.textContent = "Here's how to reach someone right now.";
+  clinicianNote.textContent = '';
+  crisisBanner.style.display = 'block';
+  formView.style.display = 'none';
+  results.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  resultsHeading.focus();
+}
+
+submitBtn.addEventListener('click', submitSymptoms);
+backBtn.addEventListener('click', startOver);
+editBtn.addEventListener('click', editAndResubmit);
+printBtn.addEventListener('click', () => window.print());
+crisisBtnBottom.addEventListener('click', showCrisisResources);
+shareBtn.addEventListener('click', copyShareLink);
+loadSharedResultFromUrl();
+renderClinicianBadges();
+</script>
+
+</body>
+</html>

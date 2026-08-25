@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request an Assessment — Mental Health Symptom Compass</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg: #12162A;
+  --ink: #F1EEE6;
+  --ink-soft: #B9C0D6;
+  --sage: #7FA893;
+  --sage-deep: #4F6C5F;
+  --card: #1B2140;
+  --card-line: #2A3158;
+  --crisis-bg: #2E1B18;
+}
+
+*{ box-sizing: border-box; }
+
+.visually-hidden{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(217,164,65,0.10), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(127,168,147,0.08), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  font-family: 'Karla', sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+  outline: 2.5px solid var(--sage);
+  outline-offset: 2px;
+}
+
+.wrap{
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+}
+
+.back-link{
+  display:inline-block;
+  background:none; border:none; padding:0;
+  margin-bottom: 28px;
+  color: var(--ink-soft);
+  font-family:'Karla', sans-serif;
+  font-size: 0.88rem; font-weight:600;
+  text-decoration:none; cursor:pointer;
+}
+.back-link:hover{ color: var(--ink); }
+
+h1{
+  font-family:'Fraunces', serif;
+  font-weight:500;
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+}
+.subhead{
+  color: var(--ink-soft);
+  font-size: 0.96rem;
+  line-height:1.5;
+  margin: 0 0 28px;
+}
+
+.therapy-tag{
+  display:inline-block;
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight:600;
+  color: var(--sage);
+  margin-bottom: 28px;
+}
+
+.field-label{
+  font-size:0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+  display:block;
+}
+
+input, textarea{
+  width:100%;
+  padding: 13px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--card-line);
+  background: var(--card);
+  color: var(--ink);
+  font-family:'Karla', sans-serif;
+  font-size: 0.96rem;
+  margin-bottom: 18px;
+}
+textarea{ min-height:90px; resize:vertical; }
+input:focus, textarea:focus{
+  outline:none;
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px rgba(127,168,147,0.18);
+}
+
+.required-mark{ color: var(--sage); }
+
+button.submit{
+  width:100%;
+  padding: 15px;
+  border-radius: 10px;
+  border:none;
+  background: linear-gradient(180deg, #E9C87A, #D9A441);
+  color: #20160A;
+  font-family:'Karla', sans-serif;
+  font-weight:700;
+  font-size: 0.98rem;
+  cursor:pointer;
+  box-shadow: 0 10px 30px -12px rgba(217,164,65,0.55);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+button.submit:hover:not(:disabled){ transform: translateY(-1px); box-shadow: 0 14px 34px -10px rgba(217,164,65,0.65); }
+button.submit:disabled{ opacity:0.6; cursor:default; }
+
+.error-box{
+  display:none;
+  margin-bottom:18px;
+  padding:14px;
+  border-radius:10px;
+  background: var(--crisis-bg);
+  color:#F1D9D1;
+  font-size:0.88rem;
+}
+
+.privacy-note{
+  font-size:0.78rem;
+  color: var(--ink-soft);
+  line-height:1.5;
+  margin-top: 18px;
+  text-align:center;
+}
+
+.success-box{
+  display:none;
+  text-align:center;
+  padding: 20px 4px;
+}
+.success-box svg{ margin-bottom: 14px; }
+.success-box h2{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size: 1.4rem;
+  margin: 0 0 10px;
+}
+.success-box p{
+  color: var(--ink-soft);
+  font-size:0.95rem;
+  line-height:1.6;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back-link" href="tool.html">← Back to Symptom Compass</a>
+
+  <div id="formSection">
+    <h1>Request a Free Assessment</h1>
+    <p class="subhead">Leave your details below and someone will reach out to arrange a time to talk it through — no commitment, no cost.</p>
+
+    <div class="therapy-tag" id="therapyTag" style="display:none;"></div>
+
+    <form id="contactForm" novalidate>
+      <label class="field-label" for="name">Name <span class="required-mark">*</span></label>
+      <input type="text" id="name" name="name" required aria-required="true" autocomplete="name">
+
+      <label class="field-label" for="email">Email <span class="required-mark">*</span></label>
+      <input type="email" id="email" name="email" required aria-required="true" autocomplete="email">
+
+      <label class="field-label" for="phone">Phone (optional)</label>
+      <input type="tel" id="phone" name="phone" autocomplete="tel">
+
+      <label class="field-label" for="message">Anything you'd like us to know (optional)</label>
+      <textarea id="message" name="message"></textarea>
+
+      <div class="error-box" id="errorBox" role="alert" aria-live="assertive"></div>
+
+      <button type="button" class="submit" id="submitBtn">Send request</button>
+    </form>
+
+    <p class="privacy-note">Your details are used only to arrange your assessment and aren't shared with anyone else. This is not a diagnostic or emergency service — if you're in crisis, please contact local emergency services or a crisis line directly.</p>
+  </div>
+
+  <div class="success-box" id="successBox">
+    <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="25" fill="none" stroke="#7FA893" stroke-width="2"/><path d="M16 27l7 7 13-14" stroke="#7FA893" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h2>Request sent</h2>
+    <p>Thanks — someone will be in touch soon to arrange your assessment. In the meantime, take care of yourself.</p>
+  </div>
+
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const therapy = params.get('therapy') || '';
+const therapyTag = document.getElementById('therapyTag');
+if(therapy){
+  therapyTag.textContent = `Interested in: ${therapy}`;
+  therapyTag.style.display = 'inline-block';
+}
+
+const submitBtn = document.getElementById('submitBtn');
+const errorBox = document.getElementById('errorBox');
+const formSection = document.getElementById('formSection');
+const successBox = document.getElementById('successBox');
+
+submitBtn.addEventListener('click', async (e) => {
+  e.preventDefault();
+  errorBox.style.display = 'none';
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+
+  const payload = {
+    name: document.getElementById('name').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    message: document.getElementById('message').value.trim(),
+    therapy
+  };
+
+  try{
+    const response = await fetch('/api/contact-request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json();
+    if(!response.ok){
+      throw new Error(data.error || 'Something went wrong. Please try again.');
+    }
+    formSection.style.display = 'none';
+    successBox.style.display = 'block';
+  } catch(err){
+    errorBox.textContent = err.message;
+    errorBox.style.display = 'block';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send request';
+  }
+});
+</script>
+</body>
+</html>

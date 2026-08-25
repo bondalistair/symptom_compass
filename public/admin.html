@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assessment Requests — Admin</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;600&display=swap');
+
+:root{
+  --bg: #12162A;
+  --ink: #F1EEE6;
+  --ink-soft: #B9C0D6;
+  --sage: #7FA893;
+  --card: #1B2140;
+  --card-line: #2A3158;
+}
+*{ box-sizing: border-box; }
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family:'Karla', sans-serif;
+  min-height:100vh;
+}
+.wrap{ max-width: 760px; margin:0 auto; padding: 48px 24px 80px; }
+h1{
+  font-family:'Fraunces', serif;
+  font-weight:500;
+  font-size: 1.7rem;
+  margin: 0 0 24px;
+}
+
+.login-box{
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-radius: 14px;
+  padding: 24px;
+  max-width: 360px;
+}
+.login-box label{
+  font-size:0.8rem;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color: var(--ink-soft);
+  display:block;
+  margin-bottom:8px;
+}
+.login-box input{
+  width:100%;
+  padding: 11px 14px;
+  border-radius: 9px;
+  border: 1px solid var(--card-line);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+}
+.login-box button{
+  width:100%;
+  padding: 12px;
+  border-radius: 9px;
+  border:none;
+  background: var(--sage);
+  color: #12162A;
+  font-weight:700;
+  font-size:0.92rem;
+  cursor:pointer;
+}
+.error-msg{
+  color:#E2836D;
+  font-size:0.85rem;
+  margin-bottom:14px;
+  display:none;
+}
+
+#requestsSection{ display:none; }
+
+.request-card{
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+.request-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:8px;
+}
+.request-name{ font-weight:700; font-size:1.02rem; }
+.request-date{ font-size:0.8rem; color: var(--ink-soft); }
+.request-row{ font-size:0.9rem; color: var(--ink-soft); margin-bottom:4px; }
+.request-row a{ color: var(--sage); }
+.therapy-chip{
+  display:inline-block;
+  background: var(--bg);
+  border:1px solid var(--card-line);
+  border-radius:20px;
+  padding:2px 10px;
+  font-size:0.78rem;
+  font-weight:600;
+  color: var(--sage);
+  margin-top:6px;
+}
+.empty-note{ color: var(--ink-soft); font-size:0.92rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Assessment Requests</h1>
+
+  <div class="login-box" id="loginBox">
+    <label for="password">Admin password</label>
+    <input type="password" id="password">
+    <div class="error-msg" id="loginError"></div>
+    <button id="loginBtn">View requests</button>
+  </div>
+
+  <div id="requestsSection">
+    <div id="requestsList"></div>
+  </div>
+</div>
+
+<script>
+const loginBox = document.getElementById('loginBox');
+const requestsSection = document.getElementById('requestsSection');
+const requestsList = document.getElementById('requestsList');
+const passwordInput = document.getElementById('password');
+const loginBtn = document.getElementById('loginBtn');
+const loginError = document.getElementById('loginError');
+
+async function loadRequests(password){
+  loginError.style.display = 'none';
+  try{
+    const response = await fetch('/api/contact-requests?password=' + encodeURIComponent(password));
+    const data = await response.json();
+    if(!response.ok){
+      throw new Error(data.error || 'Could not load requests.');
+    }
+    renderRequests(data);
+    sessionStorage.setItem('admin_password', password);
+    loginBox.style.display = 'none';
+    requestsSection.style.display = 'block';
+  } catch(err){
+    loginError.textContent = err.message;
+    loginError.style.display = 'block';
+  }
+}
+
+function renderRequests(requests){
+  if(!requests.length){
+    requestsList.innerHTML = '<p class="empty-note">No requests yet.</p>';
+    return;
+  }
+  requestsList.innerHTML = requests.map(r => `
+    <div class="request-card">
+      <div class="request-top">
+        <span class="request-name">${escapeHtml(r.name)}</span>
+        <span class="request-date">${new Date(r.createdAt).toLocaleString()}</span>
+      </div>
+      <div class="request-row">📧 <a href="mailto:${escapeHtml(r.email)}">${escapeHtml(r.email)}</a></div>
+      ${r.phone ? `<div class="request-row">📞 ${escapeHtml(r.phone)}</div>` : ''}
+      ${r.message ? `<div class="request-row">"${escapeHtml(r.message)}"</div>` : ''}
+      ${r.therapy ? `<div class="therapy-chip">${escapeHtml(r.therapy)}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+loginBtn.addEventListener('click', () => loadRequests(passwordInput.value));
+passwordInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') loadRequests(passwordInput.value); });
+
+const savedPassword = sessionStorage.getItem('admin_password');
+if(savedPassword){
+  passwordInput.value = savedPassword;
+  loadRequests(savedPassword);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "symptom-compass",
+  "version": "2.0.0",
+  "description": "Symptom Compass — landing page + AI-assisted therapy-direction tool, built on the Claude API.",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5"
+  }
+}
