@@ -93,7 +93,7 @@
   /* ---------- HERO (split) ---------- */
   .splash{
     display:grid; grid-template-columns:1fr 1fr;
-    min-height:min(82vh,760px);
+    min-height:min(100vh,860px);
     border-top:none; padding:0;
   }
   .splash-panel{
@@ -115,7 +115,7 @@
     box-shadow:0 10px 24px rgba(10,91,181,.32); transition:background .2s ease,transform .2s ease,box-shadow .2s ease;
   }
   .splash-btn:hover{background:#084a96; transform:translateY(-2px); box-shadow:0 14px 28px rgba(10,91,181,.38);}
-  .splash-photo{position:relative; min-height:320px; background:#e9eef2; overflow:hidden;}
+  .splash-photo{order:-1; position:relative; min-height:320px; background:#e9eef2; overflow:hidden;}
   .splash-photo img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:42% 0%; display:block;}
   .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
   .btn-primary{
@@ -331,19 +331,6 @@
 </script>
 </head>
 <body>
-
-<header class="nav">
-  <div class="wrap nav-row">
-    <div class="brand">
-      <svg class="brand-mark" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="10" stroke="#12304F" stroke-width="1.4"/>
-        <path d="M12 12L16 7L12 12L8 17L12 12Z" fill="#0A5BB5"/>
-      </svg>
-      Symptom Compass
-    </div>
-    <a class="nav-cta" href="tool.html">Start assessment</a>
-  </div>
-</header>
 
 <main>
   <section class="splash" aria-labelledby="splash-title">
