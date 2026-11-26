@@ -8,14 +8,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap');
 
 :root{
-  --bg: #12162A;
-  --ink: #F1EEE6;
-  --ink-soft: #B9C0D6;
-  --sage: #7FA893;
-  --sage-deep: #4F6C5F;
-  --card: #1B2140;
-  --card-line: #2A3158;
-  --crisis-bg: #2E1B18;
+  --bg: #E8F6F9;
+  --ink: #12304F;
+  --ink-soft: #2F3F58;
+  --sage: #0A5BB5;
+  --sage-deep: #084A96;
+  --card: #FFFFFF;
+  --card-line: #C3E3EA;
+  --crisis-bg: #FDEDE9;
 }
 
 *{ box-sizing: border-box; }
@@ -28,8 +28,8 @@
 body{
   margin:0;
   background:
-    radial-gradient(1200px 600px at 15% -10%, rgba(217,164,65,0.10), transparent 60%),
-    radial-gradient(900px 500px at 100% 0%, rgba(127,168,147,0.08), transparent 55%),
+    radial-gradient(1200px 600px at 15% -10%, rgba(191,230,238,0.60), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(217,241,245,0.90), transparent 55%),
     var(--bg);
   color: var(--ink);
   font-family: 'Karla', sans-serif;
@@ -109,7 +109,7 @@ textarea{ min-height:90px; resize:vertical; }
 input:focus, textarea:focus{
   outline:none;
   border-color: var(--sage);
-  box-shadow: 0 0 0 3px rgba(127,168,147,0.18);
+  box-shadow: 0 0 0 3px rgba(10,91,181,0.18);
 }
 
 .required-mark{ color: var(--sage); }
@@ -119,16 +119,16 @@ button.submit{
   padding: 15px;
   border-radius: 10px;
   border:none;
-  background: linear-gradient(180deg, #E9C87A, #D9A441);
-  color: #20160A;
+  background: #0A5BB5;
+  color: #fff;
   font-family:'Karla', sans-serif;
   font-weight:700;
   font-size: 0.98rem;
   cursor:pointer;
-  box-shadow: 0 10px 30px -12px rgba(217,164,65,0.55);
+  box-shadow: 0 10px 30px -12px rgba(10,91,181,0.32);
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
-button.submit:hover:not(:disabled){ transform: translateY(-1px); box-shadow: 0 14px 34px -10px rgba(217,164,65,0.65); }
+button.submit:hover:not(:disabled){ transform: translateY(-1px); box-shadow: 0 14px 34px -10px rgba(10,91,181,0.38); }
 button.submit:disabled{ opacity:0.6; cursor:default; }
 
 .error-box{
@@ -137,7 +137,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   padding:14px;
   border-radius:10px;
   background: var(--crisis-bg);
-  color:#F1D9D1;
+  color:#6B2517;
   font-size:0.88rem;
 }
 
@@ -201,7 +201,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   </div>
 
   <div class="success-box" id="successBox">
-    <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="25" fill="none" stroke="#7FA893" stroke-width="2"/><path d="M16 27l7 7 13-14" stroke="#7FA893" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="25" fill="none" stroke="#0A5BB5" stroke-width="2"/><path d="M16 27l7 7 13-14" stroke="#0A5BB5" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <h2>Request sent</h2>
     <p>Thanks — someone will be in touch soon to arrange your assessment. In the meantime, take care of yourself.</p>
   </div>

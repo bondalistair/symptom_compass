@@ -8,17 +8,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root{
-  --bg: #12162A;
-  --ink: #F1EEE6;
-  --ink-soft: #B9C0D6;
-  --sage: #7FA893;
-  --sage-deep: #4F6C5F;
-  --card: #1B2140;
-  --card-line: #2A3158;
-  --amber: #D9A441;
-  --crisis: #E2836D;
-  --crisis-bg: #2E1B18;
-  --rule: #2A3158;
+  --bg: #E8F6F9;
+  --ink: #12304F;
+  --ink-soft: #2F3F58;
+  --sage: #0A5BB5;
+  --sage-deep: #084A96;
+  --card: #FFFFFF;
+  --card-line: #C3E3EA;
+  --amber: #8A5A00;
+  --crisis: #B3402B;
+  --crisis-bg: #FDEDE9;
+  --rule: #C3E3EA;
 }
 
 *{ box-sizing: border-box; }
@@ -53,15 +53,15 @@ a:focus-visible,
 button:focus-visible,
 textarea:focus-visible,
 select:focus-visible{
-  outline: 2.5px solid #F1EEE6;
+  outline: 2.5px solid #12304F;
   outline-offset: 2px;
 }
 
 body{
   margin:0;
   background:
-    radial-gradient(1200px 600px at 15% -10%, rgba(217,164,65,0.10), transparent 60%),
-    radial-gradient(900px 500px at 100% 0%, rgba(127,168,147,0.08), transparent 55%),
+    radial-gradient(1200px 600px at 15% -10%, rgba(191,230,238,0.60), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(217,241,245,0.90), transparent 55%),
     var(--bg);
   color: var(--ink);
   font-family: 'Karla', sans-serif;
@@ -116,16 +116,16 @@ h1{
   gap:8px;
   padding: 10px 18px;
   border-radius: 10px;
-  border: 1.5px solid #E2836D;
+  border: 1.5px solid #B3402B;
   background: #FFFFFF;
-  color: #E2836D;
+  color: #B3402B;
   font-family:'Karla', sans-serif;
   font-weight:600;
   font-size: 0.85rem;
   cursor:pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.crisis-btn:hover{ background: #E2836D; color: #fff; }
+.crisis-btn:hover{ background: #B3402B; color: #fff; }
 
 /* Persistent disclaimer strip */
 .strip{
@@ -182,7 +182,7 @@ textarea{
   resize: vertical;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-textarea::placeholder{ color: #6B7390; }
+textarea::placeholder{ color: #5F6F86; }
 .input-hint{
   font-size: 0.78rem;
   color: var(--ink-soft);
@@ -192,7 +192,7 @@ textarea::placeholder{ color: #6B7390; }
 textarea:focus{
   outline:none;
   border-color: var(--sage);
-  box-shadow: 0 0 0 3px rgba(110,143,124,0.18);
+  box-shadow: 0 0 0 3px rgba(10,91,181,0.18);
 }
 
 .row{
@@ -223,17 +223,17 @@ button.submit{
   padding: 15px;
   border-radius: 10px;
   border:none;
-  background: linear-gradient(180deg, #E9C87A, #D9A441);
-  color: #20160A;
+  background: #0A5BB5;
+  color: #fff;
   font-family:'Karla', sans-serif;
   font-weight:700;
   font-size: 0.98rem;
   letter-spacing:0.01em;
   cursor:pointer;
-  box-shadow: 0 10px 30px -12px rgba(217,164,65,0.55);
+  box-shadow: 0 10px 30px -12px rgba(10,91,181,0.32);
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
-button.submit:hover:not(:disabled){ transform: translateY(-1px); box-shadow: 0 14px 34px -10px rgba(217,164,65,0.65); }
+button.submit:hover:not(:disabled){ transform: translateY(-1px); box-shadow: 0 14px 34px -10px rgba(10,91,181,0.38); }
 button.submit:active:not(:disabled){ transform: scale(0.99); }
 button.submit:disabled{ opacity:0.6; cursor:default; }
 
@@ -279,7 +279,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
 }
 .crisis-banner p{
   margin:0 0 6px;
-  color:#F1D9D1;
+  color:#6B2517;
   font-size:0.92rem;
   line-height:1.55;
 }
@@ -287,7 +287,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   margin: 10px 0 0;
   padding-left: 18px;
   font-size:0.88rem;
-  color:#F1D9D1;
+  color:#6B2517;
   line-height:1.7;
 }
 
@@ -353,7 +353,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   white-space:nowrap;
   font-weight:600;
 }
-.confidence.high{ background: #3E5A4D; color: #FFFFFF; }
+.confidence.high{ background: #0A5BB5; color: #FFFFFF; }
 .confidence.moderate{ background: rgba(180,129,63,0.16); color: var(--amber); }
 .confidence.low{ background: rgba(86,97,88,0.12); color: var(--ink-soft); }
 
@@ -387,7 +387,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   padding: 9px 16px;
   border-radius: 9px;
   border: none;
-  background: #4F6C5F;
+  background: #0A5BB5;
   color: #FFFFFF;
   font-family:'Karla', sans-serif;
   font-weight:600;
@@ -397,7 +397,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   transition: background 0.15s ease, color 0.15s ease;
 }
 .cta-therapist:hover{
-  background: #3C5449;
+  background: #084A96;
   color: #FFFFFF;
 }
 
@@ -428,7 +428,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   cursor:pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.share-btn:hover{ background: var(--sage); color: #12162A; }
+.share-btn:hover{ background: var(--sage); color: #fff; }
 .share-confirm{
   font-size:0.82rem;
   color: var(--sage);
@@ -444,7 +444,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   padding:16px;
   border-radius:10px;
   background: var(--crisis-bg);
-  color:#F1D9D1;
+  color:#6B2517;
   font-size:0.88rem;
 }
 
@@ -477,7 +477,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   padding: 11px 20px;
   border-radius: 10px;
   border: none;
-  background: #4F6C5F;
+  background: #0A5BB5;
   color: #FFFFFF;
   font-family:'Karla', sans-serif;
   font-weight:600;
@@ -485,7 +485,7 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   text-decoration:none;
   transition: background 0.15s ease;
 }
-.fallback-link a:hover{ background: #3C5449; }
+.fallback-link a:hover{ background: #084A96; }
 
 .back-link{
   background:none;
@@ -550,9 +550,9 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
   <div class="form-view" id="formView">
   <div class="mark" aria-hidden="true">
     <svg width="66" height="66" viewBox="0 0 48 48">
-      <circle cx="24" cy="24" r="21" fill="none" stroke="#4F6C5F" stroke-width="1.5"/>
-      <circle cx="24" cy="24" r="13.5" fill="none" stroke="#4F6C5F" stroke-width="1.5" opacity="0.6"/>
-      <circle cx="24" cy="24" r="6" fill="#4F6C5F"/>
+      <circle cx="24" cy="24" r="21" fill="none" stroke="#0A5BB5" stroke-width="1.5"/>
+      <circle cx="24" cy="24" r="13.5" fill="none" stroke="#0A5BB5" stroke-width="1.5" opacity="0.6"/>
+      <circle cx="24" cy="24" r="6" fill="#0A5BB5"/>
     </svg>
   </div>
   <h1 id="formHeading" tabindex="-1">Mental Health<br>Symptom Compass</h1>
@@ -633,10 +633,10 @@ button.submit:disabled{ opacity:0.6; cursor:default; }
 
     <div class="intro-box">
       <svg class="intro-icon" width="56" height="56" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
-        <path d="M4 5h20a2 2 0 012 2v11a2 2 0 01-2 2H11l-6 5.5V20H4a2 2 0 01-2-2V7a2 2 0 012-2z" stroke="#7FA893" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
-        <circle cx="9.5" cy="12.5" r="1.2" fill="#7FA893"/>
-        <circle cx="14" cy="12.5" r="1.2" fill="#7FA893"/>
-        <circle cx="18.5" cy="12.5" r="1.2" fill="#7FA893"/>
+        <path d="M4 5h20a2 2 0 012 2v11a2 2 0 01-2 2H11l-6 5.5V20H4a2 2 0 01-2-2V7a2 2 0 012-2z" stroke="#0A5BB5" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="9.5" cy="12.5" r="1.2" fill="#0A5BB5"/>
+        <circle cx="14" cy="12.5" r="1.2" fill="#0A5BB5"/>
+        <circle cx="18.5" cy="12.5" r="1.2" fill="#0A5BB5"/>
       </svg>
       <p class="results-intro" id="resultsIntro"></p>
     </div>
@@ -746,7 +746,7 @@ function guidelineWhy(name){
 function renderWhyBadge(therapyName){
   const why = guidelineWhy(therapyName);
   if(!why) return '';
-  const icon = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="#4F6C5F"/><path d="M4 7.2l2 2 4-4.4" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const icon = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="7" fill="#0A5BB5"/><path d="M4 7.2l2 2 4-4.4" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   return `<div class="why-badge">${icon}<a href="${why.slug}" target="_blank" rel="noopener">${escapeHtml(why.text)}</a></div>`;
 }
 
@@ -898,7 +898,7 @@ function renderClinicianBadges(){
     badges.forEach(b => { b.style.display = 'none'; });
     return;
   }
-  const icon = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z" fill="none" stroke="#4F6C5F" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4.4" stroke="#4F6C5F" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const icon = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z" fill="none" stroke="#0A5BB5" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4.4" stroke="#0A5BB5" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const text = `${icon}<span>Content reviewed by <strong>${escapeHtml(CLINICIAN_REVIEW.name)}</strong>, ${escapeHtml(CLINICIAN_REVIEW.credential)} — ${escapeHtml(CLINICIAN_REVIEW.date)}</span>`;
   badges.forEach(b => { b.innerHTML = text; b.style.display = 'flex'; });
 }

@@ -8,13 +8,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap');
 
 :root{
-  --bg: #12162A;
-  --ink: #F1EEE6;
-  --ink-soft: #B9C0D6;
-  --sage: #7FA893;
-  --sage-deep: #4F6C5F;
-  --card: #1B2140;
-  --card-line: #2A3158;
+  --bg: #E8F6F9;
+  --ink: #12304F;
+  --ink-soft: #2F3F58;
+  --sage: #0A5BB5;
+  --sage-deep: #084A96;
+  --card: #FFFFFF;
+  --card-line: #C3E3EA;
 }
 
 *{ box-sizing: border-box; }
@@ -22,8 +22,8 @@
 body{
   margin:0;
   background:
-    radial-gradient(1200px 600px at 15% -10%, rgba(217,164,65,0.10), transparent 60%),
-    radial-gradient(900px 500px at 100% 0%, rgba(127,168,147,0.08), transparent 55%),
+    radial-gradient(1200px 600px at 15% -10%, rgba(191,230,238,0.60), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(217,241,245,0.90), transparent 55%),
     var(--bg);
   color: var(--ink);
   font-family: 'Karla', sans-serif;
@@ -112,17 +112,17 @@ h1{
   padding: 12px 22px;
   border-radius: 10px;
   border: none;
-  background: linear-gradient(180deg, #E9C87A, #D9A441);
-  color: #20160A;
+  background: #0A5BB5;
+  color: #fff;
   font-family:'Karla', sans-serif;
   font-weight:700;
   font-size: 0.94rem;
   text-decoration:none;
   cursor:pointer;
-  box-shadow: 0 10px 30px -12px rgba(217,164,65,0.55);
+  box-shadow: 0 10px 30px -12px rgba(10,91,181,0.32);
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
-.cta-therapist:hover{ transform: translateY(-1px); box-shadow: 0 14px 34px -10px rgba(217,164,65,0.65); }
+.cta-therapist:hover{ transform: translateY(-1px); box-shadow: 0 14px 34px -10px rgba(10,91,181,0.38); }
 
 .disclaimer{
   border:1px solid var(--card-line);
