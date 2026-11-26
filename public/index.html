@@ -201,33 +201,51 @@
 
   /* ---------- TRUST GRID ---------- */
   .trust-grid{
-    margin-top:40px;
+    margin-top:44px;
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:1px;
-    background:var(--line);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    overflow:hidden;
+    gap:24px;
   }
-  .trust-col{ background:var(--surface); padding:30px 32px; }
+  .trust-col{
+    border-radius:20px;
+    padding:36px 36px 32px;
+    position:relative;
+  }
+  .trust-col.yes{
+    background:linear-gradient(160deg,#d9f1f5 0%,#bfe6ee 100%);
+    border:1px solid #a9d8e3;
+  }
+  .trust-col.no{
+    background:var(--surface);
+    border:1px solid var(--line-strong);
+  }
   .trust-col h4{
     font-family:'Karla', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-    font-size:0.74rem;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-    margin-bottom:16px;
+    font-size:1.5rem;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0 0 22px;
+    color:var(--ink);
   }
-  .trust-col.yes h4{ color:var(--sage); }
-  .trust-col.no h4{ color:#B3402B; }
-  .trust-col ul{ list-style:none; margin:0; padding:0; }
+  .trust-col ul{ list-style:none; margin:0; padding:0; display:grid; gap:16px; }
   .trust-col li{
-    padding:9px 0;
-    color:var(--ink-dim);
-    border-top:1px solid var(--line);
-    font-size:1.15rem;
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    color:#000;
+    font-size:1.2rem;
+    line-height:1.4;
   }
-  .trust-col li:first-of-type{ border-top:none; }
+  .trust-col li .ico{
+    flex:none;
+    width:30px; height:30px;
+    border-radius:50%;
+    display:grid; place-items:center;
+    margin-top:-1px;
+  }
+  .trust-col.yes li .ico{ background:#0A5BB5; }
+  .trust-col.no li .ico{ background:#D32F2F; }
+  .trust-col .ico svg{ width:16px; height:16px; display:block; }
 
   /* ---------- FAQ ---------- */
   .faq-list{ margin-top:44px; }
@@ -398,17 +416,18 @@
       <div class="trust-col yes">
         <h4>This is</h4>
         <ul>
-          <li>A starting point for understanding your options</li>
-          <li>Built on established therapeutic approaches</li>
-          <li>Free, with no account required</li>
+          <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span><span>A starting point for understanding your options</span></li>
+          <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span><span>Built on established therapeutic approaches</span></li>
+          <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span><span>Free, with no account required</span></li>
+          <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg></span><span>Created by a licensed UK therapist</span></li>
         </ul>
       </div>
       <div class="trust-col no">
         <h4>This isn't</h4>
         <ul>
-          <li>A diagnosis</li>
-          <li>A replacement for a licensed therapist</li>
-          <li>A crisis resource</li>
+          <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></span><span>A diagnosis</span></li>
+          <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></span><span>A replacement for a licensed therapist</span></li>
+          <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></span><span>A crisis resource</span></li>
         </ul>
       </div>
     </div>
